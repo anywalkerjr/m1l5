@@ -2,8 +2,10 @@ import random as r
 import discord
 from discord.ext import commands
 import ast
-from setting import settings
+from settings import settings
 import os
+import requests
+import time
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -127,6 +129,16 @@ async def meme(ctx):
     with open(f'm1l5\images\{img_name}', 'rb') as f:
             picture = discord.File(f)
     await ctx.send(file=picture)
-
+@bot.command()
+async def fox(ctx):
+    url = 'https://randomfox.ca/floof/'
+    res = requests.get(url)
+    data = res.json()
+    await ctx.send(data['image'])
+@bot.command()
+async def what_time(ctx):
+    seconds = time.time()
+    local_time = time.ctime(seconds)
+    await ctx.send(f"Local time is: {local_time}")
 
 bot.run(settings["TOKEN"])
